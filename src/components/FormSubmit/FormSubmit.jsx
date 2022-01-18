@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { TextField, Button, Checkbox,FormControlLabel } from "@mui/material";
 
-function FormSubmit({onSubmit, validateCpf}) {
+function FormSubmit({onSubmit, validateCpf, validateName}) {
     const [name, setName] = useState("");
     const [lastName, setLastName] = useState("");
     const [cpf, setCpf] = useState("");
     const [promotions, setPromotions] = useState(false);
     const [news, setNews] = useState(false);
     const [cpfError, setCpfError] = useState({cpf: {valid: true, text: ""}});
+    const [nameError, setNameError] = useState({name: {valid: true, text: ""}});
 
     return (
         <form onSubmit={(e) => {
@@ -19,6 +20,12 @@ function FormSubmit({onSubmit, validateCpf}) {
                 onChange={(e) => {
                     setName(e.target.value);
                 }}
+                onBlur={(e) => {
+                    const isValid = validateName(name);
+                    setNameError({name: isValid});
+                }}
+                error={!nameError.name.valid}
+                helperText={nameError.name.text}
                 id="name"
                 label="Name"
                 variant="outlined"
